@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="Friseur1">
+        <createTable tableName="ADMINISTRATOR">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ADMINISTRATOR"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="Friseur1">
+        <addColumn tableName="MASTER">
+            <column name="ADMINISTRATOR_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="3" author="Friseur1">
+        <createIndex indexName="IDX_MASTER_ADMINISTRATOR" tableName="MASTER">
+            <column name="ADMINISTRATOR_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ADMINISTRATOR_ID" baseTableName="MASTER"
+                                 constraintName="FK_MASTER_ON_ADMINISTRATOR" onDelete="CASCADE"
+                                 referencedColumnNames="ID" referencedTableName="ADMINISTRATOR"/>
+    </changeSet>
+</databaseChangeLog>
